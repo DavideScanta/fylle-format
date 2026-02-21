@@ -1,0 +1,86 @@
+fylle_format: "0.1.0"
+
+agent:
+  # ── IDENTITY ──
+  name: "Compliance Checker"
+  version: "1.0.0"
+  description: "Reviews marketing content for regulatory compliance and brand safety"
+  role: "Compliance Reviewer"
+
+  # ── AUTHORSHIP ──
+  author:
+    name: "Fylle"
+    url: "https://fylle.io"
+  license: "Apache-2.0"
+
+  # ── MODEL ──
+  model:
+    preferred: "claude-sonnet-4-5"
+    minimum_capability:
+      - "long-context"
+    settings:
+      temperature: 0.2
+      max_tokens: 3000
+
+  # ── PROMPT ──
+  prompt_file: "agent.md"
+  tone: "precise, cautious, professional"
+  language:
+    - "en"
+    - "it"
+
+  # ── INPUTS ──
+  inputs:
+    - name: "content_to_review"
+      type: "text"
+      required: true
+      description: "The marketing content to check for compliance"
+    - name: "compliance_rules"
+      type: "text"
+      required: false
+      description: "Industry-specific compliance rules and regulations"
+    - name: "brand_guidelines"
+      type: "text"
+      required: false
+      description: "Brand voice and approved messaging guidelines"
+
+  # ── OUTPUT ──
+  output:
+    format: "json"
+
+  # ── TOOLS ──
+  tools: {}
+
+  # ── SKILLS ──
+  skills:
+    - ref: "skills/regulatory-review.yaml"
+
+  # ── GUARDRAILS ──
+  guardrails:
+    file: "guardrails.yaml"
+    max_autonomy: "human-approval"
+    limits:
+      max_iterations: 10
+      max_tokens_per_response: 3000
+
+  # ── METADATA ──
+  tags:
+    - "compliance"
+    - "pharma"
+    - "regulatory"
+    - "review"
+  category: "compliance"
+
+  # ── EXTENSIONS ──
+  extensions:
+    fylle:
+      original_agent_name: "reviewer"
+      feedback_loop:
+        enabled: true
+        metrics:
+          - "approval_rate"
+          - "revision_count"
+          - "false_positive_rate"
+      context_sources:
+        - type: "compliance"
+        - type: "brand"

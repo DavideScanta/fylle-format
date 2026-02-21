@@ -1,0 +1,40 @@
+skill:
+  name: "Regulatory Review"
+  version: "1.0.0"
+  description: "Systematically reviews content against regulatory compliance rules and flags violations."
+
+  triggers:
+    - "review this content"
+    - "check compliance"
+    - "is this approved"
+    - "regulatory review"
+
+  instructions: |
+    When performing a regulatory review:
+    1. Read the entire content before flagging anything
+    2. Go through each compliance rule systematically
+    3. For each potential violation:
+       a. Quote the exact problematic text
+       b. Identify which rule it violates
+       c. Explain why it's a violation
+       d. Suggest a specific, compliant alternative
+    4. Assign severity: critical (must fix), warning (should fix), info (suggestion)
+    5. If no issues found, explicitly state "approved" with confidence level
+    6. Always err on the side of caution — flag uncertain cases as warnings
+
+  tools_used: []
+
+  output_format: "json"
+
+  input_schema:
+    type: "object"
+    properties:
+      content:
+        type: "string"
+        description: "The content to review"
+      industry:
+        type: "string"
+        enum: ["pharma", "finance", "food", "general"]
+        description: "Industry context for applicable regulations"
+    required:
+      - "content"

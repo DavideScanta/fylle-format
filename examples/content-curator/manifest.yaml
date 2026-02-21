@@ -1,0 +1,95 @@
+fylle_format: "0.1.0"
+
+agent:
+  # ── IDENTITY ──
+  name: "Content Curator"
+  version: "1.0.0"
+  description: "Finds and curates relevant content for marketing newsletters"
+  role: "Research Specialist"
+
+  # ── AUTHORSHIP ──
+  author:
+    name: "Fylle"
+    url: "https://fylle.io"
+  license: "Apache-2.0"
+
+  # ── MODEL ──
+  model:
+    preferred: "claude-sonnet-4-5"
+    minimum_capability:
+      - "tool-use"
+    settings:
+      temperature: 0.7
+      max_tokens: 4000
+
+  # ── PROMPT ──
+  prompt_file: "agent.md"
+  tone: "professional, analytical"
+  language:
+    - "en"
+    - "it"
+
+  # ── INPUTS ──
+  inputs:
+    - name: "topic"
+      type: "text"
+      required: true
+      description: "The subject to research and curate content about"
+    - name: "brand_context"
+      type: "text"
+      required: false
+      description: "Brand voice, tone guidelines, and positioning"
+    - name: "target_audience"
+      type: "text"
+      required: false
+      description: "Description of the target audience"
+
+  # ── OUTPUT ──
+  output:
+    format: "markdown"
+
+  # ── TOOLS ──
+  tools:
+    required:
+      - name: "web_search"
+        protocol: "mcp"
+        description: "Search the web for current information and trends"
+        server: "perplexity"
+    optional:
+      - name: "save_notes"
+        protocol: "mcp"
+        description: "Save research notes for future reference"
+        server: "notion"
+
+  # ── SKILLS ──
+  skills:
+    - ref: "skills/research.yaml"
+
+  # ── GUARDRAILS ──
+  guardrails:
+    max_autonomy: "draft-only"
+    limits:
+      max_iterations: 30
+      max_tokens_per_response: 4000
+
+  # ── METADATA ──
+  tags:
+    - "marketing"
+    - "research"
+    - "curation"
+    - "newsletter"
+  category: "content"
+  repository: "https://github.com/DavideScanta/fylle-format"
+
+  # ── EXTENSIONS ──
+  extensions:
+    fylle:
+      original_agent_name: "curator"
+      feedback_loop:
+        enabled: true
+        metrics:
+          - "content_engagement"
+          - "approval_rate"
+      context_sources:
+        - type: "brand"
+        - type: "audience"

@@ -1,0 +1,41 @@
+guardrails:
+  rules:
+    - id: "no-medical-claims"
+      description: "Never approve content with unsubstantiated medical or health claims"
+      severity: "block"
+      condition: "Content contains health claims without citing peer-reviewed sources"
+
+    - id: "no-guaranteed-results"
+      description: "Never approve content that guarantees specific outcomes"
+      severity: "block"
+      condition: "Content uses words like 'guaranteed', 'proven', '100%' without evidence"
+
+    - id: "require-disclaimers"
+      description: "Flag content missing required industry disclaimers"
+      severity: "warn"
+      condition: "Content is in a regulated industry and lacks standard disclaimers"
+
+    - id: "source-statistics"
+      description: "All statistics and numbers must have cited sources"
+      severity: "warn"
+      condition: "Content contains numerical claims without attribution"
+
+    - id: "competitor-mentions"
+      description: "Flag any direct competitor mentions for legal review"
+      severity: "log"
+      condition: "Content references competitors by name"
+
+  content_policies:
+    prohibited_topics:
+      - "Specific medical diagnoses or treatments"
+      - "Financial guarantees or investment advice"
+      - "Political endorsements"
+    required_disclaimers:
+      - "Results may vary"
+      - "Consult a professional before making decisions"
+    tone_boundaries: "Never aggressive, condescending, or fear-mongering"
+
+  limits:
+    max_tokens_per_response: 3000
+    max_iterations: 10
+    require_human_review: true
