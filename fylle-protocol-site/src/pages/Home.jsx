@@ -69,40 +69,39 @@ export default function Home() {
           pointerEvents: 'none',
         }} />
 
-        <p style={{
-          fontFamily: 'var(--mono)',
-          fontSize: '0.8rem',
-          color: 'var(--accent)',
-          letterSpacing: 3,
-          textTransform: 'uppercase',
-          marginBottom: '1.5rem',
-          position: 'relative',
-        }}>
-          Open Source &mdash; Apache 2.0
-        </p>
-
         <h1 style={{
-          fontFamily: 'var(--sans)',
-          fontSize: 'clamp(3rem, 7vw, 5rem)',
+          fontFamily: 'var(--mono)',
+          fontSize: 'clamp(2rem, 5vw, 3.2rem)',
           fontWeight: 700,
-          letterSpacing: -3,
-          lineHeight: 1.05,
-          marginBottom: '1.25rem',
+          letterSpacing: -1.5,
+          lineHeight: 1.1,
+          marginBottom: '2rem',
           position: 'relative',
         }}>
-          Fylle
+          .fylle <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>foundation</span>
         </h1>
 
         <p style={{
-          fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+          fontSize: 'clamp(0.95rem, 2vw, 1.15rem)',
+          color: 'var(--text-dim)',
+          fontFamily: 'var(--mono)',
+          letterSpacing: 0.5,
+          marginBottom: '1rem',
+          position: 'relative',
+        }}>
+          The vision of <a href="https://fylle.ai" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>fylle.ai</a>
+        </p>
+
+        <p style={{
+          fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
           color: 'var(--text-muted)',
           lineHeight: 1.7,
-          maxWidth: 520,
+          maxWidth: 600,
           margin: '0 auto 4rem',
           position: 'relative',
         }}>
-          The open ecosystem for portable AI agents.<br />
-          Build once, run everywhere.
+          Software is commodity.<br />
+          Knowledge, skill &amp; distribution is where the real value is.
         </p>
 
         {/* 4 Cards Grid */}
