@@ -615,6 +615,12 @@ body {
   border-color: var(--accent-mid) !important;
 }
 
+/* Home portal card hover */
+.home-card:hover {
+  border-color: var(--border-hover) !important;
+  transform: translateY(-2px);
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   .landing-nav { padding: 1rem; }
@@ -635,6 +641,9 @@ body {
   .hub-stack-chips { justify-content: center !important; }
   .nav-links .nav-link-item { display: none; }
 
+  /* Home portal responsive */
+  .home-cards-grid { grid-template-columns: 1fr !important; }
+
   /* Hub marketplace responsive */
   .hub-agent-grid { grid-template-columns: 1fr !important; }
   .hub-landing-features { grid-template-columns: 1fr !important; }
@@ -647,4 +656,5 @@ body {
 
 @media (max-width: 1024px) and (min-width: 769px) {
   .hub-agent-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .home-cards-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }

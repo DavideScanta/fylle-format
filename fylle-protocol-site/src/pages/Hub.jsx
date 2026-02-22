@@ -54,12 +54,12 @@ export default function Hub() {
       <nav className="landing-nav">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Link to="/" className="nav-logo">
-            Fylle <span>Build</span>
+            Fylle <span>Foundation</span>
           </Link>
         </div>
         <div className="nav-links">
           <Link
-            to="/"
+            to="/protocol"
             className="nav-link-item"
             style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}
           >
@@ -308,7 +308,7 @@ export default function Hub() {
             letterSpacing: 1,
           }}
         >
-          Fylle Build &mdash; by{' '}
+          Fylle Foundation &mdash; by{' '}
           <a
             href="https://fylle.ai"
             target="_blank"

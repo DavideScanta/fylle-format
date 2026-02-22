@@ -11,9 +11,9 @@ export default function Landing() {
     <div className="landing-page">
       {/* Nav */}
       <nav className="landing-nav">
-        <a href="#" className="nav-logo">Fylle <span>Build</span></a>
+        <Link to="/" className="nav-logo">Fylle <span>Foundation</span></Link>
         <div className="nav-links">
-          <a href="#how">Protocol</a>
+          <a href="#how">How it works</a>
           <a href="#stack">Stack</a>
           <a href="#adopt">Who it's for</a>
           <Link to="/builder" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Builder</Link>
@@ -228,7 +228,7 @@ export default function Landing() {
 
       {/* Why */}
       <section className="section" id="why">
-        <div className="section-label">Fylle Build</div>
+        <div className="section-label">Why</div>
         <h2>Open-source the protocol.<br />Monetize the platform.</h2>
 
         <div className="why-grid">
@@ -251,105 +251,6 @@ export default function Landing() {
               compounds. Your agent on day 100 is fundamentally smarter than on day 1.
               Agents are portable — the intelligence they build is not.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Hub Section */}
-      <section className="section" id="hub">
-        <div style={{ textAlign: 'center' }}>
-          <div className="badge" style={{ alignSelf: 'flex-start', margin: '0 auto 2rem' }}>
-            <span className="badge-dot" style={{ background: '#34d399' }}></span>
-            Coming Soon
-          </div>
-
-          <h2 style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.15, marginBottom: '1rem' }}>
-            Build once. Share <em style={{ color: 'var(--accent)', fontStyle: 'normal' }}>everywhere</em>.
-          </h2>
-          <p className="section-desc" style={{ maxWidth: 600, margin: '0 auto 3.5rem', textAlign: 'center' }}>
-            The Fylle Hub &mdash; discover, share, and deploy portable AI agents from one marketplace.
-          </p>
-
-          {/* 3 feature cards */}
-          <div className="hub-landing-features" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '4rem' }}>
-            <div style={{ padding: '2rem', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, textAlign: 'left', transition: 'border-color 0.3s' }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>&#x1F4E4;</div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.5rem' }}>Publish</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.65 }}>
-                Export your agent from any tool &mdash; OpenClaw, custom code, or the fylle Builder &mdash; and share it with the world in .fylle format.
-              </p>
-            </div>
-            <div style={{ padding: '2rem', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, textAlign: 'left', transition: 'border-color 0.3s' }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>&#x1F50D;</div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.5rem' }}>Discover</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.65 }}>
-                Browse agents by industry, use case, or capability. Every agent is fully inspectable: manifest, skills, guardrails. No black boxes.
-              </p>
-            </div>
-            <div style={{ padding: '2rem', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, textAlign: 'left', transition: 'border-color 0.3s' }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>&#x25B6;&#xFE0F;</div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.5rem' }}>Deploy</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.65 }}>
-                Download the .fylle and run it on any runtime &mdash; or launch it on Fylle in 1 click. Your agent, your choice.
-              </p>
-            </div>
-          </div>
-
-          {/* Flow Diagram */}
-          <div className="hub-flow-diagram" style={{ marginBottom: '4rem', padding: '2.5rem 2rem', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12 }}>
-            <div className="hub-flow-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-              <div className="hub-flow-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', alignItems: 'flex-end' }}>
-                {['OpenClaw', 'Custom', 'Builder'].map((s) => (
-                  <span key={s} style={{ fontFamily: 'var(--mono)', fontSize: '0.78rem', color: 'var(--text-muted)', padding: '4px 12px', background: 'var(--bg-elevated)', border: '1px solid var(--border)', borderRadius: 6 }}>{s}</span>
-                ))}
-              </div>
-              <div className="hub-flow-arrow" style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ width: 40, height: 2, background: 'var(--accent)', animation: 'hubFlowPulse 2s ease infinite' }} />
-                <div style={{ width: 0, height: 0, borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderLeft: '8px solid var(--accent)' }} />
-              </div>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.9rem', fontWeight: 700, color: 'var(--accent)', padding: '8px 16px', background: 'var(--accent-dim)', border: '1px solid var(--accent-mid)', borderRadius: 8 }}>.fylle</span>
-              <div className="hub-flow-arrow" style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ width: 40, height: 2, background: 'var(--accent)', animation: 'hubFlowPulse 2s ease 0.5s infinite' }} />
-                <div style={{ width: 0, height: 0, borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderLeft: '8px solid var(--accent)' }} />
-              </div>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.9rem', fontWeight: 700, color: 'var(--text)', padding: '8px 16px', background: 'var(--bg-elevated)', border: '1px solid var(--border-hover)', borderRadius: 8 }}>Hub</span>
-              <div className="hub-flow-arrow" style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ width: 40, height: 2, background: 'var(--accent)', animation: 'hubFlowPulse 2s ease 1s infinite' }} />
-                <div style={{ width: 0, height: 0, borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderLeft: '8px solid var(--accent)' }} />
-              </div>
-              <div className="hub-flow-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', alignItems: 'flex-start' }}>
-                {['Any Runtime', 'LangChain', 'CrewAI', 'Fylle Platform'].map((s) => (
-                  <span key={s} style={{ fontFamily: 'var(--mono)', fontSize: '0.78rem', color: 'var(--text-muted)', padding: '4px 12px', background: 'var(--bg-elevated)', border: '1px solid var(--border)', borderRadius: 6 }}>{s}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Mini agent preview */}
-          <div className="hub-mini-preview" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '3rem' }}>
-            {[
-              { name: 'Content Curator', cat: 'Marketing', catColor: '#c8ff00', desc: 'Curates relevant content for newsletters' },
-              { name: 'Compliance Checker', cat: 'Compliance', catColor: '#a78bfa', desc: 'Reviews content for regulatory compliance' },
-              { name: 'Lead Qualifier', cat: 'Sales', catColor: '#fb923c', desc: 'Scores inbound leads based on ICP fit' },
-            ].map((a) => (
-              <Link key={a.name} to="/hub" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ padding: '1.25rem', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10, textAlign: 'left', transition: 'border-color 0.3s, transform 0.3s', cursor: 'pointer' }} className="hub-mini-card">
-                  <span style={{ fontSize: '0.65rem', fontFamily: 'var(--mono)', fontWeight: 600, color: a.catColor, padding: '2px 8px', borderRadius: 100, background: `${a.catColor}18`, border: `1px solid ${a.catColor}30`, letterSpacing: 0.5 }}>{a.cat}</span>
-                  <h4 style={{ fontSize: '0.95rem', fontWeight: 700, margin: '0.6rem 0 0.3rem', color: 'var(--text)' }}>{a.name}</h4>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>{a.desc}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* CTAs */}
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/hub" className="btn btn-primary">
-              Explore the Hub &rarr;
-            </Link>
-            <a href="mailto:hello@fylle.ai?subject=fylle%20Hub%20waitlist" className="btn btn-secondary">
-              Join the waitlist
-            </a>
           </div>
         </div>
       </section>
@@ -387,11 +288,11 @@ export default function Landing() {
       {/* Footer */}
       <footer className="landing-footer">
         <div className="footer-brand">
-          Fylle Build — by <a href="https://fylle.ai" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Fylle</a>
+          Fylle Foundation &mdash; by <a href="https://fylle.ai" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Fylle</a>
         </div>
         <div className="footer-links">
           <a href="https://github.com/DavideScanta/fylle-format" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://github.com/DavideScanta/fylle-format/blob/main/spec/SPECIFICATION.md" target="_blank" rel="noopener noreferrer">Protocol Spec</a>
+          <a href="https://github.com/DavideScanta/fylle-format/blob/main/spec/SPECIFICATION.md" target="_blank" rel="noopener noreferrer">Spec</a>
           <Link to="/builder">Builder</Link>
           <Link to="/hub">Hub</Link>
           <a href="https://fylle.ai" target="_blank" rel="noopener noreferrer">Platform</a>
