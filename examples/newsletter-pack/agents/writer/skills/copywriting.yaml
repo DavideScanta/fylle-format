@@ -1,0 +1,37 @@
+skill:
+  name: "Newsletter Copywriting"
+  version: "1.0.0"
+  description: "Transforms research briefs into structured, engaging newsletter content with subject lines, body copy, and CTAs."
+
+  triggers:
+    - "write the newsletter"
+    - "create email copy"
+    - "draft the content"
+
+  instructions: |
+    When writing newsletter content:
+    1. Start with the research brief — identify the strongest angle
+    2. Write 2-3 subject line options (test-worthy)
+    3. Craft a preview text that complements the subject
+    4. Write the body: hook → insight → supporting points → CTA
+    5. Keep paragraphs under 3 sentences
+    6. Include data points from the research
+    7. Match the requested tone throughout
+    8. End with exactly one clear call to action
+
+  tools_used: []
+
+  output_format: "markdown"
+
+  input_schema:
+    type: "object"
+    properties:
+      research:
+        type: "string"
+        description: "Research brief with findings and sources"
+      tone:
+        type: "string"
+        enum: ["professional", "casual", "technical", "conversational"]
+        description: "Writing tone"
+    required:
+      - "research"

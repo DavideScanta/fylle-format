@@ -1,0 +1,74 @@
+fylle_format: "0.1.0"
+
+agent:
+  name: "Newsletter Writer"
+  version: "1.0.0"
+  description: "Crafts engaging newsletter copy from research briefs"
+  role: "Copywriter"
+
+  author:
+    name: "Fylle"
+    url: "https://fylle.io"
+  license: "Apache-2.0"
+
+  model:
+    preferred: "claude-sonnet-4-5"
+    minimum_capability:
+      - "long-context"
+    settings:
+      temperature: 0.8
+      max_tokens: 4000
+
+  prompt_file: "agent.md"
+  tone: "engaging, clear, professional"
+  language:
+    - "en"
+    - "it"
+
+  inputs:
+    - name: "research"
+      type: "text"
+      required: true
+      description: "Research brief from the curator agent"
+    - name: "topic"
+      type: "text"
+      required: true
+      description: "Main newsletter topic"
+    - name: "brand_context"
+      type: "text"
+      required: false
+      description: "Brand voice and guidelines"
+    - name: "tone"
+      type: "text"
+      required: false
+      description: "Desired tone (professional, casual, technical)"
+
+  output:
+    format: "markdown"
+
+  tools: {}
+
+  skills:
+    - ref: "skills/copywriting.yaml"
+
+  guardrails:
+    max_autonomy: "draft-only"
+    limits:
+      max_iterations: 10
+      max_tokens_per_response: 4000
+
+  tags:
+    - "writing"
+    - "newsletter"
+    - "copywriting"
+  category: "content"
+
+  extensions:
+    fylle:
+      original_agent_name: "writer"
+      feedback_loop:
+        enabled: true
+        metrics:
+          - "open_rate"
+          - "click_rate"
+          - "revision_count"

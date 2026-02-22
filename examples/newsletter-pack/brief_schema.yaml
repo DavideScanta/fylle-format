@@ -1,0 +1,37 @@
+brief:
+  questions:
+    - id: "topic"
+      question: "What's the main topic for this newsletter?"
+      type: "text"
+      required: true
+
+    - id: "audience"
+      question: "Who is the target audience?"
+      type: "select"
+      options:
+        - "B2B decision makers"
+        - "Developers"
+        - "Marketing professionals"
+        - "General public"
+      required: true
+
+    - id: "tone"
+      question: "What tone should the newsletter have?"
+      type: "select"
+      options:
+        - "Professional"
+        - "Casual"
+        - "Technical"
+        - "Conversational"
+      required: false
+      default: "Professional"
+
+    - id: "length"
+      question: "How long should the newsletter be?"
+      type: "select"
+      options:
+        - "Short (500 words)"
+        - "Medium (1000 words)"
+        - "Long (2000+ words)"
+      required: false
+      default: "Medium (1000 words)"

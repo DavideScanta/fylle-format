@@ -112,6 +112,29 @@ The `.fylle` format is **declarative** — it says WHAT the agent needs, not HOW
 | **AutoGen** | `AssistantAgent(name=..., system_message=agent.md, tools=...)` |
 | **Your framework** | Read the manifest, use what you need, ignore the rest |
 
+## Two formats, two levels
+
+| | `.fylle` | `.fyllepack` |
+|---|---|---|
+| **What** | A single AI agent | A multi-agent workflow |
+| **Analogy** | A Docker image | A Docker Compose file |
+| **Contains** | manifest + prompt + skills | manifest + pipeline + N × .fylle agents |
+| **Portable?** | Yes — any runtime | Yes — any orchestrator |
+| **Use case** | "I need a content curator" | "I need a full newsletter production pipeline" |
+
+```
+newsletter-creator.fyllepack
+├── manifest.yaml                  # Pipeline: curator → writer → reviewer
+├── agents/
+│   ├── curator.fylle              # Independent, portable agent
+│   ├── writer.fylle               # Can be swapped with a different writer
+│   └── reviewer.fylle             # Can be used standalone in LangChain
+├── brief_schema.yaml              # Questions before execution
+└── README.md
+```
+
+Each `.fylle` agent inside a `.fyllepack` is **independently valid** — you can extract it and use it alone on any platform.
+
 ## Key design principles
 
 1. **Declarative, not imperative** — describes what the agent IS, not how to run it
@@ -189,8 +212,12 @@ The complete format specification is in [`spec/SPECIFICATION.md`](spec/SPECIFICA
 
 ## Examples
 
+### Single agents (.fylle)
 - [`examples/content-curator/`](examples/content-curator/) — A research agent that finds and curates content
 - [`examples/compliance-checker/`](examples/compliance-checker/) — A compliance review agent with strict guardrails
+
+### Workflow packs (.fyllepack)
+- [`examples/newsletter-pack/`](examples/newsletter-pack/) — A 3-agent pipeline: research → write → review
 
 ## Project structure
 
@@ -199,8 +226,9 @@ fylle-format/
 ├── spec/
 │   └── SPECIFICATION.md          # Complete format specification
 ├── examples/
-│   ├── content-curator/          # Example: research agent
-│   └── compliance-checker/       # Example: compliance agent
+│   ├── content-curator/          # Example: single agent (.fylle)
+│   ├── compliance-checker/       # Example: single agent with guardrails (.fylle)
+│   └── newsletter-pack/          # Example: multi-agent workflow (.fyllepack)
 ├── sdk/
 │   └── python/                   # Python SDK (parse, validate, build)
 │       └── fylle_format/
@@ -224,8 +252,9 @@ fylle-format/
 
 > **Early development** — the format is evolving. Feedback and contributions welcome.
 
-- [x] Format specification v0.1.0
+- [x] Format specification v0.1.0 (.fylle + .fyllepack)
 - [x] Python SDK (parse, validate, build)
+- [ ] .fyllepack SDK support (parse, validate, build packs)
 - [ ] CLI tool (`fylle validate`, `fylle pack`, `fylle inspect`)
 - [ ] LangChain adapter
 - [ ] CrewAI adapter

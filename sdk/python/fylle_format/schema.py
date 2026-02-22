@@ -361,3 +361,126 @@ class FylleAgent(BaseModel):
     memory_schema: MemorySchema | None = Field(None, description="Parsed memory-schema.yaml")
     readme: str | None = Field(None, description="Contents of README.md")
     package_hash: str | None = Field(None, description="SHA-256 hash of the .fylle file")
+
+
+# ============================================================
+# .fyllepack — Multi-agent workflow models
+# ============================================================
+
+class ExecutionMode(str, Enum):
+    """How agents in a pipeline are executed."""
+    SEQUENTIAL = "sequential"     # One after another (default)
+    PARALLEL = "parallel"         # Independent agents run simultaneously
+    CONDITIONAL = "conditional"   # Agents run based on conditions
+
+
+class ErrorHandling(str, Enum):
+    """How pipeline errors are handled."""
+    STOP = "stop"       # Stop the entire pipeline on error
+    SKIP = "skip"       # Skip the failing agent, continue pipeline
+    RETRY = "retry"     # Retry the failing agent
+
+
+class PipelineStep(BaseModel):
+    """A single step in a .fyllepack pipeline."""
+    name: str = Field(..., description="Step identifier (unique within pack)")
+    agent: str = Field(..., description="Relative path to .fylle package")
+    receives_from: list[str] = Field(
+        default_factory=list,
+        description="Step names this agent receives output from"
+    )
+    input_mapping: dict[str, str] = Field(
+        default_factory=dict,
+        description="Maps agent inputs to data sources (dot notation)"
+    )
+
+
+class ExecutionConfig(BaseModel):
+    """Pipeline execution configuration."""
+    mode: ExecutionMode = Field(ExecutionMode.SEQUENTIAL, description="Execution mode")
+    final_output: str = Field(..., description="Which step's output is the workflow result")
+    error_handling: ErrorHandling = Field(ErrorHandling.STOP, description="Error handling strategy")
+
+
+class BriefSchemaRef(BaseModel):
+    """Reference to brief schema file."""
+    file: str = Field("brief_schema.yaml", description="Path to brief schema YAML")
+
+
+class BriefQuestion(BaseModel):
+    """A single brief question the user answers before workflow execution."""
+    id: str = Field(..., description="Question identifier (snake_case)")
+    question: str = Field(..., description="Question text shown to the user")
+    type: str = Field("text", description="Input type: text, select, multiselect, number")
+    required: bool = Field(True, description="Whether an answer is required")
+    options: list[str] = Field(default_factory=list, description="Options for select/multiselect")
+    default: str | None = Field(None, description="Default value")
+
+
+class BriefSchema(BaseModel):
+    """Complete brief schema from brief_schema.yaml."""
+    questions: list[BriefQuestion] = Field(default_factory=list)
+
+
+class PackIdentity(BaseModel):
+    """Complete pack definition from .fyllepack manifest.yaml."""
+
+    # Identity (required)
+    name: str = Field(..., max_length=100, description="Workflow name")
+    version: str = Field(..., description="Pack version (semver)")
+    description: str = Field(..., max_length=500, description="One-line description")
+
+    # Authorship (required)
+    author: AgentAuthor = Field(..., description="Author information")
+    license: str = Field(..., description="SPDX license identifier")
+
+    # Pipeline (required)
+    pipeline: list[PipelineStep] = Field(..., min_length=1, description="Ordered agent pipeline")
+
+    # Execution (optional)
+    execution: ExecutionConfig | None = Field(None, description="Execution configuration")
+
+    # Brief schema (optional)
+    brief_schema: BriefSchemaRef | None = Field(None, description="Reference to brief schema")
+
+    # Guardrails (optional)
+    guardrails: GuardrailsRef = Field(default_factory=GuardrailsRef, description="Workflow-level guardrails")
+
+    # Metadata (optional)
+    tags: list[str] = Field(default_factory=list, description="Searchable tags")
+    category: str | None = Field(None, description="Primary category")
+
+    # Runtime extensions (optional)
+    extensions: dict[str, Any] = Field(default_factory=dict, description="Runtime-specific extensions")
+
+    @field_validator("version")
+    @classmethod
+    def validate_version(cls, v: str) -> str:
+        return _validate_semver(v)
+
+
+class FyllePackManifest(BaseModel):
+    """Root model for .fyllepack manifest.yaml."""
+    fylle_format: str = Field(..., description="Format specification version (semver)")
+    pack: PackIdentity = Field(..., description="Pack definition")
+
+    @field_validator("fylle_format")
+    @classmethod
+    def validate_format_version(cls, v: str) -> str:
+        return _validate_semver(v)
+
+
+class FyllePack(BaseModel):
+    """A fully parsed .fyllepack workflow package.
+
+    Contains the pack manifest, all constituent agents, and optional components.
+    """
+    manifest: FyllePackManifest = Field(..., description="Parsed manifest.yaml")
+    agents: dict[str, FylleAgent] = Field(
+        default_factory=dict,
+        description="Parsed agents, keyed by pipeline step name"
+    )
+    brief_schema: BriefSchema | None = Field(None, description="Parsed brief_schema.yaml")
+    guardrails: Guardrails | None = Field(None, description="Parsed workflow-level guardrails")
+    readme: str | None = Field(None, description="Contents of README.md")
+    package_hash: str | None = Field(None, description="SHA-256 hash of the .fyllepack file")

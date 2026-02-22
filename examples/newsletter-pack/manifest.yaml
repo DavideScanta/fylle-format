@@ -1,0 +1,75 @@
+fylle_format: "0.1.0"
+
+pack:
+  # ── IDENTITY ──
+  name: "Newsletter Creator"
+  version: "1.0.0"
+  description: "End-to-end newsletter production: research, write, and review"
+
+  # ── AUTHORSHIP ──
+  author:
+    name: "Fylle"
+    url: "https://fylle.io"
+  license: "Apache-2.0"
+
+  # ── PIPELINE ──
+  pipeline:
+    - name: "curator"
+      agent: "agents/curator.fylle"
+      receives_from: []
+      input_mapping:
+        topic: "brief.topic"
+        brand_context: "context.brand"
+        target_audience: "brief.audience"
+
+    - name: "writer"
+      agent: "agents/writer.fylle"
+      receives_from: ["curator"]
+      input_mapping:
+        research: "agents.curator.output"
+        topic: "brief.topic"
+        brand_context: "context.brand"
+        tone: "brief.tone"
+
+    - name: "reviewer"
+      agent: "agents/reviewer.fylle"
+      receives_from: ["writer"]
+      input_mapping:
+        content_to_review: "agents.writer.output"
+        brand_guidelines: "context.brand"
+
+  # ── EXECUTION ──
+  execution:
+    mode: "sequential"
+    final_output: "reviewer"
+    error_handling: "stop"
+
+  # ── BRIEF SCHEMA ──
+  brief_schema:
+    file: "brief_schema.yaml"
+
+  # ── GUARDRAILS ──
+  guardrails:
+    max_autonomy: "draft-only"
+
+  # ── METADATA ──
+  tags:
+    - "marketing"
+    - "newsletter"
+    - "content"
+    - "email"
+  category: "content-production"
+
+  # ── EXTENSIONS ──
+  extensions:
+    fylle:
+      original_pack_id: "newsletter-pack-v1"
+      feedback_loop:
+        enabled: true
+        metrics:
+          - "open_rate"
+          - "click_rate"
+          - "approval_rate"
+      context_sources:
+        - type: "brand"
+        - type: "audience"

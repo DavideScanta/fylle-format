@@ -379,30 +379,210 @@ extensions:
     reasoning: true
 ```
 
-## 11. MIME type and file association
+## 11. .fyllepack — Multi-agent workflow packages
 
-- **File extension:** `.fylle`
-- **MIME type:** `application/vnd.fylle+zip`
-- **Magic bytes:** Standard ZIP header (`PK\x03\x04`)
+While a `.fylle` file defines a **single agent**, a `.fyllepack` file defines a **multi-agent workflow** — an ordered pipeline of agents that collaborate to produce a final output.
+
+Think of it this way:
+- **`.fylle`** = a single worker (portable across any runtime)
+- **`.fyllepack`** = a team of workers with a defined process (portable workflow)
+
+### 11.1 Package structure
+
+```
+my-workflow.fyllepack (ZIP archive)
+├── manifest.yaml              # REQUIRED — workflow identity and pipeline definition
+├── agents/                    # REQUIRED — agent packages
+│   ├── curator.fylle          # Each agent is a complete .fylle package
+│   ├── writer.fylle
+│   └── reviewer.fylle
+├── brief_schema.yaml          # OPTIONAL — input questions for the workflow
+├── guardrails.yaml            # OPTIONAL — workflow-level rules and limits
+└── README.md                  # OPTIONAL — human documentation
+```
+
+### 11.2 manifest.yaml for .fyllepack
+
+```yaml
+fylle_format: "0.1.0"
+
+pack:
+  # ── IDENTITY (required) ──────────────────────────────────
+  name: "string"               # Workflow name, max 100 chars
+  version: "string"            # Semver
+  description: "string"        # One-line description, max 500 chars
+
+  # ── AUTHORSHIP (required) ────────────────────────────────
+  author:
+    name: "string"
+    url: "string"              # optional
+  license: "string"            # SPDX identifier
+
+  # ── PIPELINE (required) ──────────────────────────────────
+  # Ordered sequence of agents. Each step references a .fylle file.
+  # Agents execute in order. Each agent can receive outputs from previous agents.
+  pipeline:
+    - name: "curator"                        # Step identifier (unique within pack)
+      agent: "agents/curator.fylle"          # Path to .fylle package
+      receives_from: []                      # First in chain — no dependencies
+      input_mapping:                         # OPTIONAL — map workflow inputs to agent inputs
+        topic: "brief.topic"                 #   agent input ← workflow source
+        brand_context: "context.brand"
+
+    - name: "writer"
+      agent: "agents/writer.fylle"
+      receives_from: ["curator"]             # Receives curator's output
+      input_mapping:
+        research: "agents.curator.output"    # Output from previous agent
+        topic: "brief.topic"
+        brand_context: "context.brand"
+
+    - name: "reviewer"
+      agent: "agents/reviewer.fylle"
+      receives_from: ["writer"]
+      input_mapping:
+        content_to_review: "agents.writer.output"
+        compliance_rules: "context.compliance"
+
+  # ── EXECUTION MODE (optional) ────────────────────────────
+  execution:
+    mode: "sequential"         # "sequential" | "parallel" | "conditional"
+    final_output: "reviewer"   # Which agent's output is the workflow result
+    error_handling: "stop"     # "stop" | "skip" | "retry"
+
+  # ── BRIEF SCHEMA (optional) ─────────────────────────────
+  brief_schema:
+    file: "brief_schema.yaml"  # Questions the user answers before execution
+
+  # ── GUARDRAILS (optional) ────────────────────────────────
+  guardrails:
+    file: "guardrails.yaml"
+    max_autonomy: "draft-only"
+
+  # ── METADATA (optional) ─────────────────────────────────
+  tags: ["marketing", "newsletter", "content"]
+  category: "content-production"
+
+  # ── RUNTIME EXTENSIONS (optional) ───────────────────────
+  extensions:
+    fylle:
+      original_pack_id: "string"
+      feedback_loop:
+        enabled: true
+        metrics: ["content_engagement", "approval_rate"]
+      context_sources:
+        - type: "brand"
+        - type: "audience"
+```
+
+### 11.3 brief_schema.yaml
+
+Defines the input questions a user answers before the workflow runs. The answers become available as `brief.*` variables in `input_mapping`.
+
+```yaml
+brief:
+  questions:
+    - id: "topic"
+      question: "What's the main topic for this newsletter?"
+      type: "text"                    # "text" | "select" | "multiselect" | "number"
+      required: true
+
+    - id: "audience"
+      question: "Who is the target audience?"
+      type: "select"
+      options: ["B2B decision makers", "Developers", "General public"]
+      required: true
+
+    - id: "tone"
+      question: "What tone should the content have?"
+      type: "select"
+      options: ["Professional", "Casual", "Technical"]
+      required: false
+      default: "Professional"
+```
+
+### 11.4 Input mapping syntax
+
+The `input_mapping` field connects data sources to agent inputs using dot notation:
+
+| Source | Syntax | Description |
+|---|---|---|
+| Brief answers | `brief.<question_id>` | User's answer to a brief question |
+| Context data | `context.<type>` | Runtime-provided context (brand, audience, etc.) |
+| Agent output | `agents.<name>.output` | Output from a previous agent in the pipeline |
+| Static value | `"literal string"` | A hardcoded value |
+
+### 11.5 Execution modes
+
+| Mode | Description |
+|---|---|
+| `sequential` | Agents run one after another, in pipeline order (default) |
+| `parallel` | Independent agents run simultaneously (requires no cross-dependencies) |
+| `conditional` | Agents run based on conditions (e.g., skip reviewer if curator found nothing) |
+
+> **Note:** `parallel` and `conditional` modes are planned for a future spec version. `sequential` is the only mode implemented in v0.1.0.
+
+### 11.6 Relationship between .fylle and .fyllepack
+
+```
+.fyllepack (workflow)
+│
+├── Uses N × .fylle agents as building blocks
+│
+├── Adds orchestration:
+│   ├── Pipeline order (who runs when)
+│   ├── Input mapping (data flow between agents)
+│   ├── Brief schema (user questions)
+│   └── Execution mode (sequential/parallel/conditional)
+│
+└── Each .fylle agent remains independently portable
+    └── You can extract curator.fylle and use it alone in LangChain
+```
+
+Key principle: **a .fylle agent inside a .fyllepack is a complete, valid .fylle package**. It doesn't depend on the pack to function. The pack only adds orchestration.
+
+### 11.7 Validation rules for .fyllepack
+
+1. `manifest.yaml` exists with `pack` root key (not `agent`)
+2. `pack.pipeline` has at least one step
+3. Each step references a `.fylle` file that exists in the archive
+4. Each referenced `.fylle` is independently valid
+5. `receives_from` references only steps that appear earlier in the pipeline
+6. Step names are unique within the pipeline
+7. `final_output` references a valid step name
+8. No circular dependencies in `receives_from`
+
+## 12. MIME types and file associations
+
+| Format | Extension | MIME type | Description |
+|---|---|---|---|
+| Single agent | `.fylle` | `application/vnd.fylle.agent+zip` | One portable AI agent |
+| Workflow pack | `.fyllepack` | `application/vnd.fylle.pack+zip` | Multi-agent workflow |
+
+Both use standard ZIP headers (`PK\x03\x04`).
 
 ---
 
-## Appendix A: Complete example
+## Appendix A: Complete examples
 
-See [`examples/content-curator/`](../examples/content-curator/) for a complete, valid `.fylle` package.
+- [`examples/content-curator/`](../examples/content-curator/) — A single agent (.fylle)
+- [`examples/compliance-checker/`](../examples/compliance-checker/) — A single agent with guardrails (.fylle)
+- [`examples/newsletter-pack/`](../examples/newsletter-pack/) — A multi-agent workflow (.fyllepack)
 
 ## Appendix B: Comparison with existing formats
 
-| Feature | .fylle | ADL | AGENTS.md | OpenAI Assistants |
-|---|---|---|---|---|
-| Format | ZIP (YAML+MD) | JSON/YAML | Markdown | JSON API |
-| Packaging | Yes (single file) | No | No | No (API only) |
-| System prompt | Separate .md file | Inline | Inline | Inline |
-| Tool declaration | Declarative | Declarative | No | JSON Schema |
-| Input/Output schema | Yes | No | No | Partial |
-| Skills/capabilities | Yes | No | No | No |
-| Guardrails | Yes | Permissions | No | No |
-| Memory schema | Yes | No | No | No |
-| Extensions | Yes | No | No | Metadata only |
-| Human-readable | Yes | Yes | Yes | No |
-| Runtime-agnostic | Yes | Yes | Partial | No (OpenAI only) |
+| Feature | .fylle | .fyllepack | ADL | AGENTS.md | OpenAI Assistants |
+|---|---|---|---|---|---|
+| Scope | Single agent | Multi-agent workflow | Single agent | Project config | Single agent |
+| Format | ZIP (YAML+MD) | ZIP (YAML + .fylle files) | JSON/YAML | Markdown | JSON API |
+| Packaging | Yes (single file) | Yes (single file) | No | No | No (API only) |
+| System prompt | Separate .md file | Per-agent .md files | Inline | Inline | Inline |
+| Tool declaration | Declarative | Per-agent | Declarative | No | JSON Schema |
+| Input/Output schema | Yes | Yes + mapping | No | No | Partial |
+| Pipeline/orchestration | No | Yes | No | No | No |
+| Skills/capabilities | Yes | Per-agent | No | No | No |
+| Guardrails | Yes | Per-agent + workflow-level | Permissions | No | No |
+| Memory schema | Yes | Per-agent | No | No | No |
+| Extensions | Yes | Yes | No | No | Metadata only |
+| Human-readable | Yes | Yes | Yes | Yes | No |
+| Runtime-agnostic | Yes | Yes | Yes | Partial | No (OpenAI only) |
