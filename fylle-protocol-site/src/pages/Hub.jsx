@@ -54,7 +54,7 @@ export default function Hub() {
       <nav className="landing-nav">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Link to="/" className="nav-logo">
-            .fylle <span>protocol</span>
+            Fylle <span>Build</span>
           </Link>
         </div>
         <div className="nav-links">
@@ -72,6 +72,7 @@ export default function Hub() {
           >
             Builder
           </Link>
+
           <Link
             to="/hub"
             className="nav-link-item"
@@ -146,7 +147,7 @@ export default function Hub() {
           }}
         >
           The{' '}
-          <em style={{ color: 'var(--accent)', fontStyle: 'normal' }}>fylle</em>{' '}
+          <em style={{ color: 'var(--accent)', fontStyle: 'normal' }}>Fylle</em>{' '}
           Hub
         </h1>
         <p
@@ -244,7 +245,7 @@ export default function Hub() {
               marginBottom: '2rem',
             }}
           >
-            Build it with the fylle Builder, export as .fylle, and share it with the community.
+            Build it with the Fylle Builder, export as .fylle, and share it with the community.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link
@@ -307,7 +308,7 @@ export default function Hub() {
             letterSpacing: 1,
           }}
         >
-          .fylle protocol &mdash; by{' '}
+          Fylle Build &mdash; by{' '}
           <a
             href="https://fylle.ai"
             target="_blank"

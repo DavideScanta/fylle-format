@@ -11,15 +11,14 @@ export default function Landing() {
     <div className="landing-page">
       {/* Nav */}
       <nav className="landing-nav">
-        <a href="#" className="nav-logo">.fylle <span>protocol</span></a>
+        <a href="#" className="nav-logo">Fylle <span>Build</span></a>
         <div className="nav-links">
-          <a href="#how">How it works</a>
+          <a href="#how">Protocol</a>
           <a href="#stack">Stack</a>
           <a href="#adopt">Who it's for</a>
-          <a href="#why">Why</a>
-          <Link to="/hub" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: 6 }}>Hub <span style={{ fontSize: '0.6rem', fontFamily: 'var(--mono)', padding: '2px 6px', borderRadius: 100, background: 'var(--accent-dim)', color: 'var(--accent)', fontWeight: 700, letterSpacing: 0.5 }}>Preview</span></Link>
           <Link to="/builder" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Builder</Link>
-          <a href="https://github.com/DavideScanta/fylle-format" target="_blank" rel="noopener noreferrer" className="nav-cta">GitHub →</a>
+          <Link to="/hub" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: 6 }}>Hub <span style={{ fontSize: '0.6rem', fontFamily: 'var(--mono)', padding: '2px 6px', borderRadius: 100, background: 'var(--accent-dim)', color: 'var(--accent)', fontWeight: 700, letterSpacing: 0.5 }}>Preview</span></Link>
+          <a href="https://github.com/DavideScanta/fylle-format" target="_blank" rel="noopener noreferrer" className="nav-cta">GitHub &rarr;</a>
         </div>
       </nav>
 
@@ -34,7 +33,7 @@ export default function Landing() {
         <h1>.fylle</h1>
 
         <p className="hero-sub">
-          An open standard to package, share, and deploy AI agents
+          An open protocol to package, share, and deploy AI agents
           across any platform. Build once, run everywhere.
         </p>
 
@@ -83,7 +82,7 @@ export default function Landing() {
 
       {/* How it works */}
       <section className="section" id="how">
-        <div className="section-label">Format</div>
+        <div className="section-label">The Protocol</div>
         <h2>One file. Complete agent.</h2>
         <p className="section-desc">
           A <code style={{ color: 'var(--accent)', background: 'var(--accent-dim)', padding: '2px 8px', borderRadius: 4, fontFamily: 'var(--mono)' }}>.fylle</code> package contains everything needed to understand, transport, and run an AI agent — without vendor lock-in.
@@ -229,7 +228,7 @@ export default function Landing() {
 
       {/* Why */}
       <section className="section" id="why">
-        <div className="section-label">Why Fylle</div>
+        <div className="section-label">Fylle Build</div>
         <h2>Open-source the protocol.<br />Monetize the platform.</h2>
 
         <div className="why-grid">
@@ -240,7 +239,7 @@ export default function Landing() {
               The <code style={{ color: 'var(--accent)', fontFamily: 'var(--mono)' }}>.fylle</code> format is Apache 2.0.
               Use it to package, share, and deploy agents across any platform.
               No fees, no lock-in, no strings attached.
-              We believe agent portability should be a public good.
+              Agent portability is a public good.
             </p>
           </div>
           <div className="why-block">
@@ -268,7 +267,7 @@ export default function Landing() {
             Build once. Share <em style={{ color: 'var(--accent)', fontStyle: 'normal' }}>everywhere</em>.
           </h2>
           <p className="section-desc" style={{ maxWidth: 600, margin: '0 auto 3.5rem', textAlign: 'center' }}>
-            The fylle Hub &mdash; discover, share, and deploy portable AI agents from one marketplace.
+            The Fylle Hub &mdash; discover, share, and deploy portable AI agents from one marketplace.
           </p>
 
           {/* 3 feature cards */}
@@ -388,11 +387,11 @@ export default function Landing() {
       {/* Footer */}
       <footer className="landing-footer">
         <div className="footer-brand">
-          .fylle protocol — by <a href="https://fylle.ai" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Fylle</a>
+          Fylle Build — by <a href="https://fylle.ai" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Fylle</a>
         </div>
         <div className="footer-links">
           <a href="https://github.com/DavideScanta/fylle-format" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://github.com/DavideScanta/fylle-format/blob/main/spec/SPECIFICATION.md" target="_blank" rel="noopener noreferrer">Spec</a>
+          <a href="https://github.com/DavideScanta/fylle-format/blob/main/spec/SPECIFICATION.md" target="_blank" rel="noopener noreferrer">Protocol Spec</a>
           <Link to="/builder">Builder</Link>
           <Link to="/hub">Hub</Link>
           <a href="https://fylle.ai" target="_blank" rel="noopener noreferrer">Platform</a>

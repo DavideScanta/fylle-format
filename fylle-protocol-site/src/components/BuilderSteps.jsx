@@ -687,9 +687,9 @@ export default function FylleBuilder() {
       {/* Header */}
       <div style={{ borderBottom: "1px solid #222228", padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Link to="/" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#c8ff00", fontSize: 16, textDecoration: "none" }}>.fylle</Link>
+          <Link to="/" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#c8ff00", fontSize: 16, textDecoration: "none" }}>Fylle</Link>
           <span style={{ color: "#333340" }}>|</span>
-          <span style={{ color: "#55556a", fontSize: 13 }}>Agent Builder</span>
+          <span style={{ color: "#55556a", fontSize: 13 }}>Builder</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
