@@ -53,7 +53,7 @@ class TestCreateAndParse:
             personality="# Full Agent\n\nYou are a comprehensive test agent.",
             version="2.1.0",
             author_name="Fylle",
-            author_url="https://fylle.io",
+            author_url="https://www.fylle.ai",
             license="Apache-2.0",
             model_preferred="claude-sonnet-4-5",
             role="Test Specialist",

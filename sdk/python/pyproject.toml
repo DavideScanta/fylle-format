@@ -10,7 +10,7 @@ readme = "../../README.md"
 license = "Apache-2.0"
 requires-python = ">=3.10"
 authors = [
-    { name = "Fylle", email = "hello@fylle.io" },
+    { name = "Fylle", email = "hello@fylle.ai" },
 ]
 keywords = ["ai", "agents", "format", "portable", "fylle", "mcp"]
 classifiers = [

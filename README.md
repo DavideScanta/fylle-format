@@ -272,5 +272,5 @@ Apache 2.0 — see [LICENSE](LICENSE) for details.
 ---
 
 <p align="center">
-  Built by <a href="https://fylle.io">Fylle</a> — AI-powered marketing automation.
+  Built by <a href="https://www.fylle.ai">Fylle</a> — AI-powered marketing automation.
 </p>

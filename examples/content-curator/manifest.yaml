@@ -10,7 +10,7 @@ agent:
   # ── AUTHORSHIP ──
   author:
     name: "Fylle"
-    url: "https://fylle.io"
+    url: "https://www.fylle.ai"
   license: "Apache-2.0"
 
   # ── MODEL ──
